@@ -11,11 +11,6 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
-
-Route::get('login', function() {
-    return View::make('login');
-});
+Route::get('/', "MainController@index");
+Route::get('/2', "MainController@index2");
+Route::get('/3', "MainController@index3");
