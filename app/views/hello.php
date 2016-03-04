@@ -15,7 +15,7 @@
 	<?php
 		if(DB::connection()->getDatabaseName())
 		{
-		   echo "Connected FUCKING sucessfully to database ".DB::connection()->getDatabaseName().".";
+		   echo "Connected treger FUCKING sucessfully to database ".DB::connection()->getDatabaseName().".";
 		}
 	?>
 </body>
