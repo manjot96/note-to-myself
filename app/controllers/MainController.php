@@ -18,8 +18,8 @@ class MainController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	 public function index(){
-		return View::make('notes/index', ['notes'=>Note::all()]);
+	 public function index() {
+		return View::make('login');
 	}
 
 
@@ -41,7 +41,14 @@ class MainController extends \BaseController {
 	 */
 	public function store()
 	{
-		//
+        echo "hello";
+		if(Auth::attempt(Input::only('emailaddress', 'password'))) {
+            echo "hello";
+            return "Logged in as " . Auth::user()->emailaddress;
+        } else {
+            echo "goodbye";
+            return Redirect::back()->withInput();
+        }
 	}
 
 
