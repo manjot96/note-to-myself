@@ -14,16 +14,6 @@ class MainController extends \BaseController {
 	}
 
 	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	 public function index() {
-		return View::make('login');
-	}
-
-
-	/**
 	 * Show the form for creating a new resource.
 	 *
 	 * @return Response
@@ -31,21 +21,6 @@ class MainController extends \BaseController {
 	public function create()
 	{
 		//
-	}
-
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		if(Auth::attempt(Input::only('emailaddress', 'password'))) {
-            return "Logged in as " . Auth::user()->emailaddress;
-        } else {
-            return Redirect::to('/mainpage');
-        }
 	}
 
 
