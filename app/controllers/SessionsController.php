@@ -10,6 +10,8 @@ class SessionsController extends \BaseController
             return Redirect::route('sessions.create'); //form
         }
     }
+	
+	// hello
 
 	
     public function create()
