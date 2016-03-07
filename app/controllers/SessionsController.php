@@ -37,7 +37,7 @@ class SessionsController extends \BaseController
 		}else{
 			//return "Unsuccessful login attempt.";
 			return Redirect::back()->withInput();
-    }
+        }
 }
 
 	

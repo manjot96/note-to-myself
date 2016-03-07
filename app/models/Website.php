@@ -5,8 +5,8 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class Note extends Eloquent implements UserInterface, RemindableInterface {
-    public $timestamps = false;
+class Website extends Eloquent implements UserInterface, RemindableInterface {
+
 	use UserTrait, RemindableTrait;
 
 	/**
@@ -14,8 +14,7 @@ class Note extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var string
 	 */
-	protected $table = 'notes';
-    
+	protected $table = 'Websites';
 
 	/**
 	 * The attributes excluded from the model's JSON form.

@@ -1,7 +1,7 @@
 @extends('layouts.basic')
 
 @section('maincontent')
-    <h1>Create a New User</h1>
+    <h1>Register Now</h1>
 
     {{Form::open(['route'=>'users.store'])}}
         <div>
@@ -16,7 +16,9 @@
         </div> 
 	
         <div>
-            {{Form::submit('Create User')}}
+            {{Form::submit('Register Now')}}
         </div>
     {{Form::close()}}
+    
+    <p>Already have a account? <a href="/">Log in</a> now!</p>
 @stop

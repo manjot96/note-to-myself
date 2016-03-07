@@ -1,21 +1,21 @@
-@extends('layouts/basic')
-
-@section('maincontent')
-    <h1>Login</h1>
-    
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Note to Myself - Log in</title>
+</head>
+<body>
+    <h1>Log In</h1>
     {{Form::open(['route'=>'main.store'])}}
         <div>
-            {{Form::label('emailaddress', 'Email Address:')}}
-            {{Form::email('emailaddress')}}
-            {{$errors->first('emailaddress', '<span class="error">:message<span>')}}
+            <h3>Email Address:</h3>
+            <input type="text" name="emailaddress" id="emailaddress" />
         </div>
         <div>
-            {{Form::label('password', 'Your password:')}}
-            {{Form::password('password')}}
-            {{$errors->first('password', '<span class="error">:message<span>')}}
+            <h3>Password</h3>
+            <input type="text" name="password" id="password" />
         </div>
-        <div>
-            {{Form::submit('Log in')}}
-        </div>
+        <input type="submit" value="Log In!" />
     {{Form::close()}}
-@stop
+</body>
+</html>

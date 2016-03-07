@@ -13,3 +13,5 @@
             {{Form::submit('Log in')}}
         </div>
     {{Form::close()}}
+    
+    <a href="/users/create">Register</a>
