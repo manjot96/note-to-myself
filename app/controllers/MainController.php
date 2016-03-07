@@ -1,7 +1,7 @@
 <?php
 
 class MainController extends \BaseController {
-	protected $user;
+	
 	public function index3(){
 		DB::table('images')->insert([
 		'image' => DB::raw("LOAD_FILE('./hooves.jpg')")
@@ -41,20 +41,11 @@ class MainController extends \BaseController {
 	 */
 	public function store()
 	{
-        $input = Input::all();
-
-        $this->user->fill($input);
-        
-        $this->user->emailaddress = Input::get('emailaddress');
-        $this->user->password     = Input::get('password');
-
-        
-        if(!($this->user->isValid())) {
-            return Redirect::back()->withInput()->withErrors($this->user->messages);
+		if(Auth::attempt(Input::only('emailaddress', 'password'))) {
+            return "Logged in as " . Auth::user()->emailaddress;
+        } else {
+            return Redirect::to('/mainpage');
         }
-        
-        $this->user->save();
-        return Redirect::route('main.index2');
 	}
 
 

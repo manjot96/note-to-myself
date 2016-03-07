@@ -15,3 +15,7 @@ Route::get('/', "MainController@index");
 Route::get('/2', "MainController@index2");
 Route::get('/3', "MainController@index3");
 Route::resource('main', 'MainController');
+
+Route::get('mainpage', function() {
+    return "The is the main page";
+});

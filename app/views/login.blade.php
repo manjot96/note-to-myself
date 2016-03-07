@@ -1,7 +1,7 @@
 @extends('layouts/basic')
 
 @section('maincontent')
-    <h1>Create a new user</h1>
+    <h1>Login</h1>
     
     {{Form::open(['route'=>'main.store'])}}
         <div>
@@ -12,7 +12,7 @@
         <div>
             {{Form::label('password', 'Your password:')}}
             {{Form::password('password')}}
-            {{$errors->first('emailaddress', '<span class="error">:message<span>')}}
+            {{$errors->first('password', '<span class="error">:message<span>')}}
         </div>
         <div>
             {{Form::submit('Log in')}}
