@@ -4,7 +4,7 @@
     <h1>Users</h1>
     
     @foreach($users as $u)
-        <li>{{$u->email . " " . $u->password}}</li>
+        <li>{{$u->emailaddress . " " . $u->password}}</li>
     @endforeach
 	
 @stop
