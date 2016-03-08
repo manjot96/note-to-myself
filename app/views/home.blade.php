@@ -35,7 +35,6 @@ echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
     {{HTML::style('css/home.css')}}
 </head>
 <body>
-<<<<<<< HEAD
     <div id="wrapper">
     <form action="/logout" method="post">
         <h2 id="header">{{$_SESSION["email"]}} - <span><a href="/logout">Log out</a></span></h2>
@@ -67,7 +66,6 @@ echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
         <div id="footer">
             <input type="submit" value="Save" style="width:200px;height:80px" name="submitting" />
         </div>
-=======
     <form action="buffalo">
     <h2 id="header">{{$_SESSION["email"]}} - <span><a href="logout.php">Log out</a></span></h2>
     
@@ -89,7 +87,5 @@ echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
             ->update(array('notes' => "hello world!"));?>
     </form>
     
-    
->>>>>>> origin/master
 </body>
 </html>
