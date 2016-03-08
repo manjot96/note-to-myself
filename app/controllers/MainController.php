@@ -94,7 +94,16 @@ class MainController extends \BaseController {
         TBD::where('_ID', $_SESSION["_ID"])
         ->update(array('text' => $_POST["tbd"]));
         $_SESSION["tbd"] = $_POST["tbd"];
-		return View::make('home');
+        DB::delete('delete from Websites where _ID="'.$_SESSION["_ID"].'"');
+        $_SESSION["urls"] = array();
+        foreach($_POST["websites"] as $buffalo) {
+            if(!empty($buffalo)) {
+                array_push($_SESSION["urls"], $buffalo);
+                Website::insert(array('_id' => $_SESSION["_ID"],
+                'urls' => $buffalo));
+            }
+        }
+        return View::make('home');
 	}
 
 
