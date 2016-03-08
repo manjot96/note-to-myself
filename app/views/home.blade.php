@@ -2,7 +2,6 @@
 //session_start();
 //TODO: update database, make notes and 'tbh' _id unique; Figure out how we will be updating the websites; maybe for loop? use i as index?idk kevin got this
 //add $hell into the sessions when user is logged in;
-
 if(!isset($_SESSION["email"]))
     return View::make('login');
     
@@ -46,6 +45,9 @@ echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
     <input type="text" name="websites[]" /><br >
     <input type="text" name="websites[]" /><br >
     <input type="text" name="websites[]" /><br >
+    <?php
+    Notes::where('_ID', $hell)
+            ->update(array('notes' => "hello world!"));?>
     </form>
     
     
