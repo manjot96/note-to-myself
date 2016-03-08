@@ -14,6 +14,7 @@
 Route::get('/', "SessionsController@index");
 Route::get('/2', "MainController@index2");
 Route::get('/3', "MainController@index3");
+Route::get('/logout', "MainController@logout");
 Route::resource('main', 'MainController');
 Route::resource('users', 'UsersController');
 Route::resource('sessions', 'SessionsController');

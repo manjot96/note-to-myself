@@ -50,7 +50,17 @@ class MainController extends \BaseController {
 		if(Auth::attempt(Input::only('emailaddress', 'password'))) {
             $_SESSION["email"] = Auth::user()->emailaddress;
             $res = User::select('_ID')->where('emailaddress', $_SESSION["email"])->first();
+            //check if $res is empty here
             $_SESSION["_ID"] = $res["_ID"];
+            $res = Note::select('note')->where('_ID', $_SESSION["_ID"])->get()->toArray();
+            $_SESSION["notes"] = (!empty($res)) ? $res[0]["note"] : "";
+            $res = TBD::select('text')->where('_ID', $_SESSION["_ID"])->get()->toArray();
+            $_SESSION["tbd"] = (!empty($res)) ? $res[0]["text"] : "";
+            $res = Website::select('urls')->where('_ID', $_SESSION["_ID"])->get()->toArray();
+            $_SESSION["urls"] = array();
+            foreach($res as $url) {
+                array_push($_SESSION["urls"], $url["urls"]);
+            }
 			return View::make('home');
 		} else{
 			return Redirect::back()->withInput();
@@ -88,7 +98,7 @@ class MainController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy()
+	public function logout()
 	{
 		session_destroy();
 	}
