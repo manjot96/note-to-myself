@@ -66,26 +66,8 @@ echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
         <div id="footer">
             <input type="submit" value="Save" style="width:200px;height:80px" name="submitting" />
         </div>
-    <form action="buffalo">
-    <h2 id="header">{{$_SESSION["email"]}} - <span><a href="logout.php">Log out</a></span></h2>
-    
-    <textarea>{{$notes}}</textarea>
-    
-    <textarea>{{$tbd}}</textarea>
-    <br>
-    <?php
-    foreach($res as $url) {
-        echo "<input type=\"text\" name=\"websites[]\" value=". $url["urls"] ." /><br >";
-    }
-    ?>
-    <input type="text" name="websites[]" /><br >
-    <input type="text" name="websites[]" /><br >
-    <input type="text" name="websites[]" /><br >
-    <input type="text" name="websites[]" /><br >
-    <?php
-    Notes::where('_ID', $hell)
-            ->update(array('notes' => "hello world!"));?>
+	<br>
     </form>
-    
+    </div>
 </body>
 </html>

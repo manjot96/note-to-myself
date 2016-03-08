@@ -20,5 +20,5 @@
         </div>
     {{Form::close()}}
     
-    <p>Already have a account? <a href="/">Log in</a> now!</p>
+    <p>Already have a account? <a href="/login">Log in</a> now!</p>
 @stop

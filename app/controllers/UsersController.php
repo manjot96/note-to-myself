@@ -32,11 +32,15 @@ class UsersController extends \BaseController
         $this->user->password     = Hash::make(Input::get('password'));
         $this->user->save();
 
-        return Redirect::route('sessions.store');
+        return Redirect::route('main.store');
     }
     public function show($id)
     {
         return View::make('users.show',
             ['u'=>$this->user->whereId($id)->first()]);
     }
+	
+	public function forgot(){
+		return View::make('resetpassword');
+	}
 }

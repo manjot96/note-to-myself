@@ -16,6 +16,10 @@
             <input type="text" name="password" id="password" />
         </div>
         <input type="submit" value="Log In!" />
+		<li>
+			<p><a href="/register">Register</a> | <a href="/forgot">Forgot password</a>
+			</p>
+        </li>
     {{Form::close()}}
 </body>
 </html>
