@@ -2,7 +2,6 @@
 //session_start();
 //TODO: update database, make notes and 'tbh' _id unique; Figure out how we will be updating the websites; maybe for loop? use i as index?idk kevin got this
 //add $hell into the sessions when user is logged in;
-
 if(!isset($_SESSION["email"]))
     return View::make('login');
     
@@ -36,6 +35,7 @@ echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
     {{HTML::style('css/home.css')}}
 </head>
 <body>
+<<<<<<< HEAD
     <div id="wrapper">
     <form action="/logout" method="post">
         <h2 id="header">{{$_SESSION["email"]}} - <span><a href="/logout">Log out</a></span></h2>
@@ -67,5 +67,29 @@ echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
         <div id="footer">
             <input type="submit" value="Save" style="width:200px;height:80px" name="submitting" />
         </div>
+=======
+    <form action="buffalo">
+    <h2 id="header">{{$_SESSION["email"]}} - <span><a href="logout.php">Log out</a></span></h2>
+    
+    <textarea>{{$notes}}</textarea>
+    
+    <textarea>{{$tbd}}</textarea>
+    <br>
+    <?php
+    foreach($res as $url) {
+        echo "<input type=\"text\" name=\"websites[]\" value=". $url["urls"] ." /><br >";
+    }
+    ?>
+    <input type="text" name="websites[]" /><br >
+    <input type="text" name="websites[]" /><br >
+    <input type="text" name="websites[]" /><br >
+    <input type="text" name="websites[]" /><br >
+    <?php
+    Notes::where('_ID', $hell)
+            ->update(array('notes' => "hello world!"));?>
+    </form>
+    
+    
+>>>>>>> origin/master
 </body>
 </html>
