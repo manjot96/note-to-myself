@@ -51,8 +51,6 @@ echo $_SESSION["notes"]."<br>";
         <div id="footer">
             <input type="submit" value="Save" style="width:200px;height:80px" name="submitting" />
         </div>
-	<br>
-    <br>
     </form>
     </div>
 </body>
