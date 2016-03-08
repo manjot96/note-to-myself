@@ -15,9 +15,15 @@ Route::get('/', "SessionsController@index");
 Route::get('/2', "MainController@index2");
 Route::get('/3', "MainController@index3");
 Route::get('/logout', "MainController@logout");
+<<<<<<< Updated upstream
 Route::get('/login', "MainController@index");
 Route::get('/register', "UsersController@create");
 Route::get('/forgot', "UsersController@forgot");
+=======
+
+Route::post('/update', "MainController@update");
+
+>>>>>>> Stashed changes
 Route::resource('main', 'MainController');
 Route::resource('users', 'UsersController');
 Route::resource('sessions', 'SessionsController');

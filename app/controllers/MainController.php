@@ -86,9 +86,15 @@ class MainController extends \BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($id)
+	public function update()
 	{
-		//
+        Note::where('_ID', $_SESSION["_ID"])
+        ->update(array('note' => $_POST["notes"]));
+        $_SESSION["notes"] = $_POST["notes"];
+        TBD::where('_ID', $_SESSION["_ID"])
+        ->update(array('text' => $_POST["tbd"]));
+        $_SESSION["tbd"] = $_POST["tbd"];
+		return View::make('home');
 	}
 
 

@@ -4,27 +4,8 @@
 //add $hell into the sessions when user is logged in;
 if(!isset($_SESSION["email"]))
     return View::make('login');
-    
-$res = User::select('_ID')->where('emailaddress', $_SESSION["email"])->first();
-$hell = $res["_ID"];
-$res = DB::select('select note from Notes where _ID = "'.$hell.'"');
-//print_r($res);
-$res = Note::select('note')->where('_ID', $hell)->get()->toArray();
-$notes  = $res[0]["note"];
-$res = TBD::select('text')->where('_ID', $hell)->get()->toArray();
-$tbd    = (!empty($res)) ? $res[0]["text"] : "";
-$res = Website::select('urls')->where('_ID', $hell)->get()->toArray();
-$urlArray = array();
-foreach($res as $url) {
-    array_push($urlArray, $url["urls"]);
-}
 
-echo $_SESSION["_ID"] . "<br>";
-echo $_SESSION["email"] . "<br>";
-echo $_SESSION["notes"] . "<br>";
-echo $_SESSION["tbd"] . "<br>";
-
-echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
+echo $_SESSION["notes"]."<br>";
 ?>
 
 <!doctype html>
@@ -36,7 +17,7 @@ echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
 </head>
 <body>
     <div id="wrapper">
-    <form action="/logout" method="post">
+    <form action="update" method="post">
         <h2 id="header">{{$_SESSION["email"]}} - <span><a href="/logout">Log out</a></span></h2>
         <div id="section1">
 
@@ -46,6 +27,10 @@ echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
             </div>
             <div id="column2">
                 <h2>websites</h2>
+                <?php
+                foreach($_SESSION["urls"] as $url)
+                     echo "<input type=\"text\" name=\"websites[]\" value=".$url." /><br >"
+                ?>
                 <input type="text" name="websites[]" /><br >
                 <input type="text" name="websites[]" /><br >
                 <input type="text" name="websites[]" /><br >
@@ -67,6 +52,7 @@ echo "<br>" . $notes . "<br>" . "<br>" . $tbd . "<br>";
             <input type="submit" value="Save" style="width:200px;height:80px" name="submitting" />
         </div>
 	<br>
+    <br>
     </form>
     </div>
 </body>
