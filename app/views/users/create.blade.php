@@ -9,10 +9,16 @@
             {{Form::text('emailaddress')}}
             {{$errors->first('emailaddress', '<span class="error">:message<span>')}}
         </div>
+         <div>
+            {{ Form::label('password', 'Password') }}
+            {{ Form::text('password') }}
+			{{$errors->first('password', '<span class="error">:message<span>')}}
+        </div>
         <div>
-            {{Form::label('password', 'Password: ')}}
-            {{Form::text('password')}}
-            {{$errors->first('password', '<span class="error">:message<span>')}}
+            {{ Form::label('password_confirmation', 'Password Confirm') }}
+            {{ Form::text('password_confirmation') }}
+			{{$errors->first('password', '<span class="error">:message<span>')}}
+        </div>
         </div> 
 	
         <div>

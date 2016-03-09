@@ -25,11 +25,12 @@ class UsersController extends \BaseController
         $this->user->fill($input);
            
         if(!($this->user->isValid()))
-        {
+		{ 
             return Redirect::back()->withInput()->withErrors($this->user->messages);
-        }
+		}
 		$this->user->emailaddress = Input::get('emailaddress');
         $this->user->password     = Hash::make(Input::get('password'));
+		unset($this->user->password_confirmation);
         $this->user->save();
 
         return Redirect::route('main.store');
