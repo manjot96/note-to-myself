@@ -1,6 +1,7 @@
 @extends('layouts.basic')
 
 @section('maincontent')
+<script src='https://www.google.com/recaptcha/api.js'></script>
     <h1>Register Now</h1>
 
     {{Form::open(['route'=>'users.store'])}}
@@ -20,7 +21,7 @@
 			{{$errors->first('password', '<span class="error">:message<span>')}}
         </div>
         </div> 
-	
+		<div class="g-recaptcha" data-sitekey="6LcwWhoTAAAAABhnntiKN92FwtMjRRLtetCHUSw3"></div>
         <div>
             {{Form::submit('Register Now')}}
         </div>

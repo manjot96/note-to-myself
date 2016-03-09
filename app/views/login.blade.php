@@ -8,18 +8,24 @@
     <h1>Log In</h1>
     {{Form::open(['route'=>'main.store'])}}
         <div>
-            <h3>Email Address:</h3>
-            <input type="text" name="emailaddress" id="emailaddress" />
-        </div>
+			{{Form::label('emailaddress', 'Email Address: ')}}
+			{{Form::text('emailaddress')}}
+		</div>
+    	<div>
+			{{ Form::label('password', 'Password') }}
+			{{ Form::text('password') }}
+		</div>
         <div>
-            <h3>Password</h3>
-            <input type="text" name="password" id="password" />
+            {{Form::submit('Log in')}}
         </div>
-        <input type="submit" value="Log In!" />
 		<li>
 			<p><a href="/register">Register</a> | <a href="/forgot">Forgot password</a>
 			</p>
         </li>
+		
+	
     {{Form::close()}}
 </body>
 </html>
+
+		

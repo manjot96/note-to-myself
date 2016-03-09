@@ -73,7 +73,7 @@ class MainController extends \BaseController {
             
 			return View::make('home');
 		} else{
-			return Redirect::back()->withInput();
+			return View::make('processlogin');
         }
     }
 

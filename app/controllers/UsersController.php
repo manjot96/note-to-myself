@@ -2,7 +2,7 @@
 class UsersController extends \BaseController
 {
     protected $user;
-
+	
     public function __construct(User $user)
     {
         $this->user = $user;
@@ -20,11 +20,12 @@ class UsersController extends \BaseController
 
     public function store()
     {
-        $input = Input::all();
+		$secret = "6LcwWhoTAAAAANp8NI4eEcCFOFyQPsCvB_lAaT1v";
+        $input  = Input::all();
 
         $this->user->fill($input);
            
-        if(!($this->user->isValid()))
+        if(!($this->user->isValid()) && $_POST['g-recaptcha-response'] == $secret)
 		{ 
             return Redirect::back()->withInput()->withErrors($this->user->messages);
 		}
