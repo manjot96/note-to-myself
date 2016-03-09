@@ -12,7 +12,7 @@
             <h3>
                 {{Form::label('emailaddress', 'Email Address')}}
                 <span id="validEmail"></span>
-            <h3>
+            <h3 style="margin-left:0px;">
             {{Form::text('emailaddress')}}
             {{$errors->first('emailaddress', '<span class="error">:message<span>')}}
         </li>
@@ -31,10 +31,11 @@
             </h3>
             {{ Form::text('password_confirmation') }}
 			{{$errors->first('password', '<span class="error">:message<span>')}}
-		<div class="g-recaptcha" data-sitekey="6LcwWhoTAAAAABhnntiKN92FwtMjRRLtetCHUSw3"></div>
         </li>
-        </li> 
-	
+	    <li class="captchali">
+            <div class="g-recaptcha" style="margin-left:20px;" data-sitekey="6LcwWhoTAAAAABhnntiKN92FwtMjRRLtetCHUSw3">                
+            </div>
+        </li>
         <li>
             {{Form::submit('Register Now')}}
         </li>
