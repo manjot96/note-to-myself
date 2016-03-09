@@ -1,4 +1,5 @@
 <?php
+use ReCaptcha\ReCaptcha;
 class UsersController extends \BaseController
 {
     protected $user;
@@ -21,13 +22,22 @@ class UsersController extends \BaseController
     public function store()
     {
 		$secret = "6LcwWhoTAAAAANp8NI4eEcCFOFyQPsCvB_lAaT1v";
+        $response = Input::get('g-recaptcha-response');
+        $remoteip = $_SERVER['REMOTE_ADDR'];
+
+        $recaptcha = new ReCaptcha($secret);
+        $resp = $recaptcha->verify($response, $remoteip);
+		
         $input  = Input::all();
 
         $this->user->fill($input);
-           
-        if(!($this->user->isValid()) && $_POST['g-recaptcha-response'] == $secret)
+        
+        if(!($this->user->isValid()))
 		{ 
             return Redirect::back()->withInput()->withErrors($this->user->messages);
+		}
+		if(!($resp->isSuccess())){
+			return Redirect::back()->withInput();
 		}
 		$this->user->emailaddress = Input::get('emailaddress');
         $this->user->password     = Hash::make(Input::get('password'));
