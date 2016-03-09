@@ -28,7 +28,7 @@
         <li>
             <h3>Email address<span id="validEmail"></span></h3>
             <p>
-                <input type="text" name="email" id="email" tabindex="1"  value=11235813@123.com />
+                <input type="text" name="email" id="email" tabindex="1"  value=""/>
 						
 							
 				</p>
