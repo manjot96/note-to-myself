@@ -4,7 +4,7 @@
 </title>
 
 <body>
-    Thank you. Finish Signing up now! <br>
+    Thank you. Finish Signing up now!
     <br>
     Thank you for registering.
     <br>

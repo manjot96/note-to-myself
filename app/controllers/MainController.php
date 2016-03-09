@@ -43,11 +43,17 @@ class MainController extends \BaseController {
 	{
 		//
 	}
-    
+
+    //handles the request sent by login
     public function store()
-	{
+	{   
 		// only pass the email address and the password; nothing else
 		if(Auth::attempt(Input::only('emailaddress', 'password'))) {
+            //die();
+            if(isset($_SESSION['count'])) {
+                unset($_SESSION['count']);
+                unset($_SESSION['countE']);
+            }
             $_SESSION["email"] = Auth::user()->emailaddress;
             $_SESSION["_ID"] = Auth::user()->_ID;
             
@@ -71,6 +77,16 @@ class MainController extends \BaseController {
             
 			return View::make('home');
 		} else{
+            //TO ADD; check if the email actually exsists in our database!
+            $email = Input::only('emailaddress')['emailaddress'];
+            $_SESSION['count'] = (isset($_SESSION['countE']) 
+                                     && $_SESSION['countE'] == $email) 
+                                     ? ($_SESSION['count'] + 1) : 1;
+            $_SESSION['countE'] = $email;
+            if($_SESSION['count'] > 3) {
+                //return view:: with $email;
+                return "locked";
+            }
 			return View::make('processlogin');
         }
     }
