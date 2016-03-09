@@ -145,10 +145,8 @@ class MainController extends \BaseController {
 	{
 		if (isset($_SESSION["email"])) {
             session_destroy();
-			return View::make('logout');
-        }else{
-            return View::make('login');
-        }
+			
+        }return View::make('logout');
 		
 	}
 

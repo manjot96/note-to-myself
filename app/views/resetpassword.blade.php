@@ -20,7 +20,7 @@
         <li>
             <h3>Email address<span id="validEmail"></span></h3>
             <p>
-                <input type="text" name="email" id="email" tabindex="1" value=""/>
+                <input type="text" name="email" id="email" tabindex="1"  value=""/>
 						
 							
 				</p>
