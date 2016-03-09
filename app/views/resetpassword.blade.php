@@ -15,20 +15,12 @@
 		Type your email address in the text box below. A new password will be sent to your email address.
 	</p>
 
-	<form action="processpasswordreminder.php" method="post">
-<!--    <p>Demo for <a href="http://www.jankoatwarpspeed.com/post/2009/09/16/Animate-validation-feedback-using-jQuery.aspx">Animate validation feedback using jQuery</a></p>
-    <h2><img src="header.png" alt="Account information" /></h2> -->
+	<form action="/send" method="post">
     <ul>
-        <!--<li class="first">
-            <h3>Your Name</h3>
-            <p>
-
-                <input type="text" value="First and Last name" id="name" name="name" /></p>
-        </li>-->
         <li>
             <h3>Email address<span id="validEmail"></span></h3>
             <p>
-                <input type="text" name="email" id="email" tabindex="1"  value=11235813@123.com />
+                <input type="text" name="email" id="email" tabindex="1" value=""/>
 						
 							
 				</p>

@@ -20,6 +20,7 @@ Route::get('/register', "UsersController@create");
 Route::get('/forgot', "UsersController@forgot");
 
 Route::post('/update', "MainController@update");
+Route::post('/send', "UsersController@send");
 Route::resource('main', 'MainController');
 Route::resource('users', 'UsersController');
 Route::resource('sessions', 'SessionsController');

@@ -43,4 +43,30 @@ class UsersController extends \BaseController
 	public function forgot(){
 		return View::make('resetpassword');
 	}
+    
+    public function send() {
+        $email = Input::get('email');;
+        //if the user didn't enter an email;
+        if($email == "")
+                return "not today";
+        
+        //If the user doesn't exsist in the database;
+        if(User::select('_ID')->where('emailaddress', $email)->first() == null)
+            return "not today";
+            
+        $pass = str_random(6);
+        
+        //ARE WE SUPPOSED TO DO THIS??
+        //currently it will change password whenever you enter a valid email address;
+        DB::table('users')
+            ->where('emailaddress', $email)
+            ->update(array('password' => $pass));
+        
+        return $pass;
+        //Send the email; passing in variables pass and email to view 'hello' so access them from there later;
+        Mail::send('hello', array('pass' => $pass, 'email' => $email), function($message) {
+            $message->to(Input::get('email'), '')->subject('Welcome to the Laravel 4 Auth App!');
+        });
+        //return a view that shows email has been sent or someting;
+    }
 }

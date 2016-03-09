@@ -17,7 +17,7 @@ foreach($_SESSION["images"] as $img)
 </head>
 <body>
     <div id="wrapper">
-    <form action="update" method="post"  enctype="multipart/form-data">
+    <form action="update" method="post" enctype="multipart/form-data">
         <h2 id="header">{{$_SESSION["email"]}} - <span><a href="/logout">Log out</a></span></h2>
         <div id="section1">
 
