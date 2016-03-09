@@ -47,13 +47,11 @@ class UsersController extends \BaseController
     
     public function send() {
         $email = Input::get('email');;
-        //if the user didn't enter an email;
-        if($email == "")
-                return "not today";
-        
+        //if the user didn't enter an emil
         //If the user doesn't exsist in the database;
-        if(User::select('_ID')->where('emailaddress', $email)->first() == null)
-            return "not today";
+        if(User::select('_ID')->where('emailaddress', $email)->first() == null || empty($email)) {
+            return View::make('users.resetreminder')->with('email', $email);
+        }
             
         $pass = str_random(6);
         

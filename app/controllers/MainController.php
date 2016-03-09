@@ -49,9 +49,7 @@ class MainController extends \BaseController {
 		// only pass the email address and the password; nothing else
 		if(Auth::attempt(Input::only('emailaddress', 'password'))) {
             $_SESSION["email"] = Auth::user()->emailaddress;
-            $res = User::select('_ID')->where('emailaddress', $_SESSION["email"])->first();
-            //check if $res is empty here
-            $_SESSION["_ID"] = $res["_ID"];
+            $_SESSION["_ID"] = Auth::user()->_ID;
             
             $res = Note::select('note')->where('_ID', $_SESSION["_ID"])->get()->toArray();
             $_SESSION["notes"] = (!empty($res)) ? $res[0]["note"] : "";
