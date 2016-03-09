@@ -77,6 +77,6 @@ class UsersController extends \BaseController
         Mail::send('hello', array('pass' => $pass, 'email' => $email), function($message) {
             $message->to(Input::get('email'), '')->subject('Welcome to the Laravel 4 Auth App!');
         });
-        //return a view that shows email has been sent or someting;
+        //return a view that shows email has been sent and pass the password in there;
     }
 }
