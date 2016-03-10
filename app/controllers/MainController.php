@@ -80,34 +80,36 @@ class MainController extends \BaseController {
             
 			return View::make('home');
 		} else{
-            //TO ADD; check if the email actually exsists in our database!
-            $email = Input::only('emailaddress')['emailaddress'];
-            $_SESSION['count'] = (isset($_SESSION['countE']) 
-                                     && $_SESSION['countE'] == $email) 
-                                     ? ($_SESSION['count'] + 1) : 1;
-            $_SESSION['countE'] = $email;
-            if($_SESSION['count'] > 3) {
-                $pass = str_random(6);
-                $url  = '';
-                
-                DB::table('users')
-                ->where('emailaddress', $email)
-                ->update(array('password' => Hash::make($pass)));
-                
-                $title = 'Your account has been Locked';
-                $body  = 'Someone tried to access your account and failed to login after 3 attempts. <br>
-                            Your new password is <b>'. $pass .'.</b> <br>
-                            Please click <b><a href="'.$url.'">here</a></b> to activate your account again!'; 
-                
-                Mail::send('emails.emailGeneric', array('title' => $title, 'body' => $body), function($message) {
-                    $message->to($_SESSION['countE'], '')->subject('Account has been locked - Note to Myself!');
-                });
-                
-                unset($_SESSION['count']);
-                unset($_SESSION['countE']);
-                
-                return View::make('hello')->with('email', $email);
-            }
+            // 
+			if (User::where('emailaddress', '=', Input::get('emailaddress'))->exists()){
+				$email = Input::only('emailaddress')['emailaddress'];
+				$_SESSION['count'] = (isset($_SESSION['countE']) 
+										&& $_SESSION['countE'] == $email) 
+										? ($_SESSION['count'] + 1) : 1;
+				$_SESSION['countE'] = $email;
+				if($_SESSION['count'] > 3) {
+						$pass = str_random(6);
+						$url  = '';
+						
+						DB::table('users')
+						->where('emailaddress', $email)
+						->update(array('password' => Hash::make($pass)));
+						
+						$title = 'Your account has been Locked';
+						$body  = 'Someone tried to access your account and failed to login after 3 attempts. <br>
+									Your new password is <b>'. $pass .'.</b> <br>
+									Please click <b><a href="'.$url.'">here</a></b> to activate your account again!'; 
+						
+						Mail::send('emails.emailGeneric', array('title' => $title, 'body' => $body), function($message) {
+							$message->to($_SESSION['countE'], '')->subject('Account has been locked - Note to Myself!');
+						});
+						
+						unset($_SESSION['count']);
+						unset($_SESSION['countE']);
+						
+						return View::make('hello')->with('email', $email);
+				}
+			}
 			return View::make('processlogin');
         }
     }
