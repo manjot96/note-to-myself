@@ -53,7 +53,7 @@ class UsersController extends \BaseController
             $message->to($this->user->emailaddress, '')->subject('Welcome to Note to Myself!');
         });
 
-        return View::make('users.postregisteration')->with('email', $this->user->emailaddress);
+        return View::make('users.postregisteration')->with('email', $this->user->emailaddress)->with('url', $url);
     }
     public function show($id)
     {
@@ -64,7 +64,13 @@ class UsersController extends \BaseController
 		return View::make('resetpassword');
 	}
     
+    //handles forgot password
     public function send() {
+        
+        if(!isset($_SESSION["email"])) {
+            return "Are you lost? Click <a href='/home'>here</a> to login.";
+        }
+        
         $email = Input::get('email');;
         //if the user didn't enter an emil
         //If the user doesn't exsist in the database;
@@ -74,18 +80,24 @@ class UsersController extends \BaseController
             
         $pass = str_random(6);
         
-        //ARE WE SUPPOSED TO DO THIS??
-        //currently it will change password whenever you enter a valid email address;
         DB::table('users')
             ->where('emailaddress', $email)
             ->update(array('password' => Hash::make($pass)));
         
-        return $pass;
+        $title = "Your password has been reset!";
+        $body  = "Your new password is:<b>".$pass."</b>. Please keep this email or write this down<br>";
+        
         //Send the email; passing in variables pass and email to view 'hello' so access them from there later;
-        Mail::send('hello', array('pass' => $pass, 'email' => $email), function($message) {
-            $message->to(Input::get('email'), '')->subject('Welcome to the Laravel 4 Auth App!');
+        Mail::send('emails.emailGeneric', array('title' => $title, 'body' => $body), function($message) {
+            $message->to(Input::get('email'), '')->subject('Password Reset');
         });
-        //return a view that shows email has been sent and pass the password in there;
+        $title = "Your new password is ". $pass;
+        $body = "Your password has been reset.<br>
+                    An email may have been sent to <span style=\"color: red;\">".Input::get('email')."</span>.<br>
+                    Please use your new password from now on.<br>
+                    Then you can<a href=\"/login\"> log in</a>.<br>";
+        
+        return View::make('emails.emailGeneric')->with('title', $title)->with('body', $body);
     }
     
     public function verify($verification, $email) {

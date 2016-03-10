@@ -12,6 +12,6 @@
     <br>
     Please confirm your registration by clicking the link in your email.
     <br>
-    Then you can <a href='index.php'>log in</a>. <span style='color:red;text-decoration:blink'>Alternatively, you can finish signing up <a href='??'></span>now</a>.
+    Then you can <a href='/login'>log in</a>. <span style='color:red;text-decoration:blink'>Alternatively, you can finish signing up <a href='{{$url}}'></span>now</a>.
 </body>
 </html>

@@ -1,21 +1,9 @@
 <?php
 session_start();
 class MainController extends \BaseController {
-	
-	public function index3(){
-		DB::table('images')->insert([
-		'image' => DB::raw("LOAD_FILE('./hooves.jpg')")
-		]);
-		return View::make('images/index', ['images'=>Image::all()]);
-	}
-	
-	public function index2(){
-		return View::make('users/index', ['users'=>User::all()]);
-	}
     
     public function index() {
         if (isset($_SESSION["email"])) {
-            //sends us to the home page where all notes are;
             return View::make('home');
         }else{
             return View::make('login');
@@ -29,7 +17,11 @@ class MainController extends \BaseController {
 	 */
 	public function create()
 	{
-		//
+		if(!isset($_SESSION["email"])) {
+            return "Are you lost? Click <a href='/home'>here</a> to login.";
+        } else {
+            return View::make('home');
+        }
 	}
 
 
@@ -41,7 +33,11 @@ class MainController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
+		if(!isset($_SESSION["email"])) {
+            return "Are you lost? Click <a href='/home'>here</a> to login.";
+        } else {
+            return View::make('home');
+        }
 	}
 
     //handles the request sent by login
@@ -49,13 +45,19 @@ class MainController extends \BaseController {
 	{   
 		// only pass the email address and the password; nothing else
 		if(Auth::attempt(Input::only('emailaddress', 'password'))) {
-            //die();
             if(isset($_SESSION['count'])) {
                 unset($_SESSION['count']);
                 unset($_SESSION['countE']);
             }
+            $url = '/verify/'.Auth::user()->verification.'/'.Auth::user()->emailaddress;
             
-            //add if there to verify account is not locked!;
+            if(Auth::user()->active == 0) {
+                return "Your account is currently locked.
+                        <br>Please check your email for activation link or <a href=\"/forgot\">reset</a> your password.<br>
+                        Alternatively click <a href='".$url."'>here</a> to activate your account<Br>
+                        <a href=\"/login\">Login</a> now.";
+            }
+            
             
             $_SESSION["email"] = Auth::user()->emailaddress;
             $_SESSION["_ID"] = Auth::user()->_ID;
@@ -80,34 +82,31 @@ class MainController extends \BaseController {
             
 			return View::make('home');
 		} else{
-            // 
 			if (User::where('emailaddress', '=', Input::get('emailaddress'))->exists()){
 				$email = Input::only('emailaddress')['emailaddress'];
-				$_SESSION['count'] = (isset($_SESSION['countE']) 
-										&& $_SESSION['countE'] == $email) 
+				$_SESSION['count'] = (isset($_SESSION['countE']) && $_SESSION['countE'] == $email) 
 										? ($_SESSION['count'] + 1) : 1;
 				$_SESSION['countE'] = $email;
 				if($_SESSION['count'] > 3) {
 						$pass = str_random(6);
-						$url  = '';
+                        $verify = User::select('verification')->where('emailaddress', $email)->first();
+                        
+						$url  = '/verify/'.$verify['verification'].'/'.$_SESSION['countE'];
 						
 						DB::table('users')
 						->where('emailaddress', $email)
-						->update(array('password' => Hash::make($pass)));
+						->update(array('password' => Hash::make($pass), 'active' => 0));
 						
-						$title = 'Your account has been Locked';
-						$body  = 'Someone tried to access your account and failed to login after 3 attempts. <br>
-									Your new password is <b>'. $pass .'.</b> <br>
-									Please click <b><a href="'.$url.'">here</a></b> to activate your account again!'; 
+						$title = 'Your account has been Locked'; 
 						
-						Mail::send('emails.emailGeneric', array('title' => $title, 'body' => $body), function($message) {
+						Mail::send('emails.emailReset', array('title' => $title, 'pass' => $pass, 'url' => $url), function($message) {
 							$message->to($_SESSION['countE'], '')->subject('Account has been locked - Note to Myself!');
 						});
 						
 						unset($_SESSION['count']);
 						unset($_SESSION['countE']);
 						
-						return View::make('hello')->with('email', $email);
+						return "Your account has been locked! Check your email for the authentication email and your new password.";
 				}
 			}
 			return View::make('processlogin');
@@ -136,6 +135,41 @@ class MainController extends \BaseController {
 	public function update()
 	{
         
+        $res = Image::select('imgid')->where('_ID', $_SESSION["_ID"])->get()->toArray();
+        if(count($res) >= 4) {
+            return "Only aloud to upload 4 pictures. Click <a href='/home'>here</a> to go back.";
+        } 
+        
+        $array = array();
+        foreach($res as $img) {
+             array_push($array, $img['imgid']);
+        }
+        
+        $i = 0;
+        foreach($_SESSION["images"] as $img) {
+            if(isset($_POST[$i])) {
+                DB::delete('delete from Images where imgid="'.$array[$i].'"');
+            }
+            ++$i;
+        }
+        
+        //uploads here;
+        if($_FILES['image']['error'] === UPLOAD_ERR_OK){
+            if($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/jpg"
+                || $_FILES['image']['type'] == "image/gif" ) {
+                $image = file_get_contents($_FILES['image']['tmp_name']);
+                Image::insert(array('_id' => $_SESSION["_ID"],
+                'image' => $image));
+            } else {
+                return "Only aloud to upload jpg/gif images. Click <a href='/home'>here</a> to go back.";
+            }
+        }
+        $res = Image::select('image')->where('_ID', $_SESSION["_ID"])->get()->toArray();
+        $_SESSION["images"] = array();
+        foreach($res as $image) {
+            array_push($_SESSION["images"], $image["image"]);
+        }
+        
         Note::where('_ID', $_SESSION["_ID"])
         ->update(array('note' => $_POST["notes"]));
         $_SESSION["notes"] = $_POST["notes"];
@@ -148,47 +182,14 @@ class MainController extends \BaseController {
         DB::delete('delete from Websites where _ID="'.$_SESSION["_ID"].'"');
         
         $_SESSION["urls"] = array();
-        foreach($_POST["websites"] as $buffalo) {
-            if(!empty($buffalo)) {
-                array_push($_SESSION["urls"], $buffalo);
+        foreach($_POST["websites"] as $url) {
+            if(!empty($url)) {
+                array_push($_SESSION["urls"], $url);
                 Website::insert(array('_id' => $_SESSION["_ID"],
-                'urls' => $buffalo));
+                'urls' => $url));
             }
         }
-        $res = Image::select('imgid')->where('_ID', $_SESSION["_ID"])->get()->toArray();
         
-        $array = array();
-        foreach($res as $shit) {
-             array_push($array, $shit['imgid']);
-        }
-        
-        $i = 0;
-        foreach($_SESSION["images"] as $img) {
-            if(isset($_POST[$i])) {
-                DB::delete('delete from Images where imgid="'.$array[$i].'"');
-            }
-            ++$i;
-        }
-        
-        $count = count(Image::select('image')->where('_ID', $_SESSION["_ID"])->get()->toArray());
-        if($count >= 4) {
-            die('we done');
-        }
-        
-        //uploads here;
-        if($_FILES['image']['error'] === UPLOAD_ERR_OK){
-            if($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/jpg"
-                || $_FILES['image']['type'] == "image/gif" ) {
-                $image = file_get_contents($_FILES['image']['tmp_name']);
-                Image::insert(array('_id' => $_SESSION["_ID"],
-                'image' => $image));
-            }
-        }
-        $res = Image::select('image')->where('_ID', $_SESSION["_ID"])->get()->toArray();
-        $_SESSION["images"] = array();
-        foreach($res as $image) {
-            array_push($_SESSION["images"], $image["image"]);
-        }
         return View::make('home');
 	}
 
@@ -202,6 +203,7 @@ class MainController extends \BaseController {
 	public function logout()
 	{
 		if (isset($_SESSION["email"])) {
+            //grab more code for session_destroy from php
             session_destroy();
         } return View::make('logout');
 		

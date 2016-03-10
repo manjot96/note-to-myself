@@ -6,7 +6,9 @@
 	<body>
 		<h3>{{$title}}</h3>
 		<div>
-			{{$body}}
+			Someone tried to access your account and failed to login after 3 attempts. <br>
+            Your new password is <b>{{$pass}}</b> <br>
+            Please click <b>{{URL::to($url)}}</b> to activate your account again!
             <br>
             <Br>
             Regards,<br>
