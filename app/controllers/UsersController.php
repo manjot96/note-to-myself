@@ -11,7 +11,7 @@ class UsersController extends \BaseController
 
     public function index()
     {
-            return View::make("users/index", ['users' => $this->user->all()]);
+            //return View::make("users/index", ['users' => $this->user->all()]);
     }
 
     public function create()
@@ -19,6 +19,7 @@ class UsersController extends \BaseController
         return View::make('users.create');
     }
 
+    //registeration;
     public function store()
     {
 		$secret = "6LcwWhoTAAAAANp8NI4eEcCFOFyQPsCvB_lAaT1v";
@@ -43,13 +44,17 @@ class UsersController extends \BaseController
         $this->user->password     = Hash::make(Input::get('password'));
 		unset($this->user->password_confirmation);
         $this->user->save();
+        $url = '';
+        
+        Mail::send('emails.emailRegister', array('email' => $this->user->emailaddress, 'url' => $url), function($message) {
+            $message->to($this->user->emailaddress, '')->subject('Welcome to Note to Myself!');
+        });
 
-        return Redirect::route('main.store');
+        return View::make('users.postregisteration')->with('email', $this->user->emailaddress);
     }
     public function show($id)
     {
-        return View::make('users.show',
-            ['u'=>$this->user->whereId($id)->first()]);
+        //
     }
 	
 	public function forgot(){

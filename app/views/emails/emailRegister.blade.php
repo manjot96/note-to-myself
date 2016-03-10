@@ -4,9 +4,9 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-		<h2>Welcome to {{URL::to('google.ca')}}</h2>
+		<h3>Welcome to {{URL::to('')}}</h3>
 		<div>
-			To finish signing up for {{$email}}, please click this link: {{URL::to($url)}}
+			To finish signing up for <b>{{$email}}</b>, please click this link: <a href="{{URL::to($url)}}">{{URL::to($url)}}</a>
             <br>
             <Br>
             Thank you.

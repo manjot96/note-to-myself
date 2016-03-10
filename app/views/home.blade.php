@@ -45,15 +45,17 @@ foreach($_SESSION["images"] as $img)
                 <br>
                 <div>
                     <?php 
+                    $i = 0;
                     foreach($_SESSION["images"] as $img) {
                         echo '<div>
                         <a href="data:image/jpeg;base64,'.base64_encode($img).'">
                         <img src="data:image/jpeg;base64,'.base64_encode($img).'"/>
                         </a>
-                        <input type=\'checkbox\' name=\'delete[]\' value=\'165\' /> 
-                        <label for=\'delete[]\'>delete</label><br /><br />
+                        <input type=\'checkbox\' name="'.$i.'" value=\'165\' /> 
+                        <label for="'.$i.'">delete</label><br /><br />
                         </div>';
-                    } 
+                        ++$i;
+                    }
                     ?>
                 </div>
             </div>

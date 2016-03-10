@@ -4,12 +4,13 @@
 		<meta charset="utf-8">
 	</head>
 	<body>
-		<h2>Welcome to {{URL::to('google.ca')}}</h2>
+		<h3>{{$title}}</h3>
 		<div>
-			To finish signing up for {{$email}}, please click this link: {{URL::to($url)}}
+			{{$body}}
             <br>
             <Br>
-            Thank you.
+            Regards,
+            Note to Myself Team!
 		</div>
 	</body>
 </html>

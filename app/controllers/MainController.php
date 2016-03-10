@@ -84,8 +84,26 @@ class MainController extends \BaseController {
                                      ? ($_SESSION['count'] + 1) : 1;
             $_SESSION['countE'] = $email;
             if($_SESSION['count'] > 3) {
-                //return view:: with $email;
-                return "locked";
+                $pass = str_random(6);
+                $url  = '';
+                
+                DB::table('users')
+                ->where('emailaddress', $email)
+                ->update(array('password' => Hash::make($pass)));
+                
+                $title = 'Your account has been Locked';
+                $body  = 'Someone tried to access your account and failed to login after 3 attempts. <br>
+                            Your new password is <b>'. $pass .'.</b> <br>
+                            Please click <b><a href="'.$url.'">here</a></b> to activate your account again!'; 
+                
+                Mail::send('emails.emailGeneric', array('title' => $title, 'body' => $body), function($message) {
+                    $message->to($_SESSION['countE'], '')->subject('Account has been locked - Note to Myself!');
+                });
+                
+                unset($_SESSION['count']);
+                unset($_SESSION['countE']);
+                
+                return View::make('hello')->with('email', $email);
             }
 			return View::make('processlogin');
         }
@@ -112,6 +130,7 @@ class MainController extends \BaseController {
 	 */
 	public function update()
 	{
+        
         Note::where('_ID', $_SESSION["_ID"])
         ->update(array('note' => $_POST["notes"]));
         $_SESSION["notes"] = $_POST["notes"];
@@ -131,7 +150,27 @@ class MainController extends \BaseController {
                 'urls' => $buffalo));
             }
         }
+        $res = Image::select('imgid')->where('_ID', $_SESSION["_ID"])->get()->toArray();
         
+        $array = array();
+        foreach($res as $shit) {
+             array_push($array, $shit['imgid']);
+        }
+        
+        $i = 0;
+        foreach($_SESSION["images"] as $img) {
+            if(isset($_POST[$i])) {
+                DB::delete('delete from Images where imgid="'.$array[$i].'"');
+            }
+            ++$i;
+        }
+        
+        $count = count(Image::select('image')->where('_ID', $_SESSION["_ID"])->get()->toArray());
+        if($count >= 4) {
+            die('we done');
+        }
+        
+        //uploads here;
         if($_FILES['image']['error'] === UPLOAD_ERR_OK){
             if($_FILES['image']['type'] == "image/jpeg" || $_FILES['image']['type'] == "image/jpg"
                 || $_FILES['image']['type'] == "image/gif" ) {
@@ -159,8 +198,7 @@ class MainController extends \BaseController {
 	{
 		if (isset($_SESSION["email"])) {
             session_destroy();
-			
-        }return View::make('logout');
+        } return View::make('logout');
 		
 	}
 
