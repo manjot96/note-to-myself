@@ -9,12 +9,17 @@
     <h1>Log In</h1>
     {{Form::open(['route'=>'main.store'])}}
     <ul>
+		
         <li>
 			<h3>
                 {{Form::label('emailaddress', 'Email Address: ')}}
                 <span id="validEmail"></span>
             </h3>    
-			{{Form::text('emailaddress')}}
+			@if (isset($_COOKIE['email']))
+				{{Form::text('emailaddress', $_COOKIE['email'])}}
+			@else
+				{{Form::text('emailaddress')}}
+			@endif
 		</li>
     	<li>
 			<h3 title="6+ Characters!">
