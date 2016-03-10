@@ -54,6 +54,9 @@ class MainController extends \BaseController {
                 unset($_SESSION['count']);
                 unset($_SESSION['countE']);
             }
+            
+            //add if there to verify account is not locked!;
+            
             $_SESSION["email"] = Auth::user()->emailaddress;
             $_SESSION["_ID"] = Auth::user()->_ID;
             
