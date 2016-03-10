@@ -49,6 +49,7 @@ class MainController extends \BaseController {
                 unset($_SESSION['count']);
                 unset($_SESSION['countE']);
             }
+                   
             $url = '/verify/'.Auth::user()->verification.'/'.Auth::user()->emailaddress;
             
             if(Auth::user()->active == 0) {
@@ -58,7 +59,12 @@ class MainController extends \BaseController {
                         <a href=\"/login\">Login</a> now.";
             }
             
-            
+            if(isset($_SESSION['time'])) {
+                if(time() - $_SESSION['time'] > 60) {
+                    return View::make('/logout');
+                }
+            }
+            $_SESSION['time'] = time();
             $_SESSION["email"] = Auth::user()->emailaddress;
             $_SESSION["_ID"] = Auth::user()->_ID;
             
@@ -79,6 +85,8 @@ class MainController extends \BaseController {
             foreach($res as $image) {
                 array_push($_SESSION["images"], $image["image"]);
             }
+            
+            setcookie("email", $_SESSION["email"], time() + 60*60*24*366);
             
 			return View::make('home');
 		} else{
@@ -134,7 +142,12 @@ class MainController extends \BaseController {
 	 */
 	public function update()
 	{
-        
+        if(isset($_SESSION['time'])) {
+            if(time() - $_SESSION['time'] > 60) {
+                return View::make('/logout');
+            }
+        }
+        $_SESSION['time'] = time();
         $res = Image::select('imgid')->where('_ID', $_SESSION["_ID"])->get()->toArray();
         if(count($res) >= 4) {
             return "Only aloud to upload 4 pictures. Click <a href='/home'>here</a> to go back.";

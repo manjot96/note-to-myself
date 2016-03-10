@@ -21,7 +21,7 @@
                 {{Form::label('password', 'Password') }}
                 <span id="validPass"></span>
             </h3>
-            {{ Form::text('password') }}
+            {{ Form::password('password') }}
 			{{$errors->first('password', '<span class="error">:message<span>')}}
         </li>
         <li>
@@ -29,7 +29,7 @@
                 {{Form::label('password_confirmation', 'Password Confirm') }}
             <span id="validPassConf"></span>
             </h3>
-            {{ Form::text('password_confirmation') }}
+            {{ Form::password('password_confirmation') }}
 			{{$errors->first('password', '<span class="error">:message<span>')}}
         </li>
 	    <li class="captchali">

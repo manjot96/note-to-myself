@@ -26,7 +26,7 @@
                 {{Form::label('password', 'Password') }}
                 <span id="validPass"></span>
             </h3>
-			{{ Form::text('password') }}
+			{{ Form::password('password') }}
 		</li>
         <li class ="last">
             {{Form::submit('Log in')}}
