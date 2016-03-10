@@ -15,6 +15,7 @@ Route::get('/logout', "MainController@logout");
 Route::get('/login', "MainController@index");
 Route::get('/register', "UsersController@create");
 Route::get('/forgot', "UsersController@forgot");
+Route::get('/home', "MainController@index");
 Route::get('/verify/{verification}/{email}', "UsersController@verify");
 
 Route::post('/update', "MainController@update");

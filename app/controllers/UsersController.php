@@ -22,6 +22,7 @@ class UsersController extends \BaseController
     //registeration;
     public function store()
     {
+        
 		$secret = "6LcwWhoTAAAAANp8NI4eEcCFOFyQPsCvB_lAaT1v";
         $response = Input::get('g-recaptcha-response');
         $remoteip = $_SERVER['REMOTE_ADDR'];

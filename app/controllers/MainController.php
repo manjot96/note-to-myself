@@ -18,7 +18,7 @@ class MainController extends \BaseController {
 	public function create()
 	{
 		if(!isset($_SESSION["email"])) {
-            return "Are you lost? Click <a href='/home'>here</a> to login.";
+            return "Are you lost? Click <a href='/login'>here</a> to login.";
         } else {
             return View::make('home');
         }
@@ -34,7 +34,7 @@ class MainController extends \BaseController {
 	public function show($id)
 	{
 		if(!isset($_SESSION["email"])) {
-            return "Are you lost? Click <a href='/home'>here</a> to login.";
+            return "Are you lost? Click <a href='/login'>here</a> to login.";
         } else {
             return View::make('home');
         }
@@ -60,8 +60,8 @@ class MainController extends \BaseController {
             }
             
             if(isset($_SESSION['time'])) {
-                if(time() - $_SESSION['time'] > 60) {
-                    return View::make('/logout');
+                if(time() - $_SESSION['time'] > 1200) {
+                    return Redirect::to('/logout');
                 }
             }
             $_SESSION['time'] = time();
@@ -142,16 +142,11 @@ class MainController extends \BaseController {
 	 */
 	public function update()
 	{
-        if(isset($_SESSION['time'])) {
-            if(time() - $_SESSION['time'] > 60) {
-                return View::make('/logout');
-            }
+        if(isset($_SESSION['time']) && (time() - $_SESSION['time']) > 1200) {
+                return Redirect::to('/logout');
         }
         $_SESSION['time'] = time();
         $res = Image::select('imgid')->where('_ID', $_SESSION["_ID"])->get()->toArray();
-        if(count($res) >= 4) {
-            return "Only aloud to upload 4 pictures. Click <a href='/home'>here</a> to go back.";
-        } 
         
         $array = array();
         foreach($res as $img) {
@@ -165,6 +160,10 @@ class MainController extends \BaseController {
             }
             ++$i;
         }
+        $res = Image::select('imgid')->where('_ID', $_SESSION["_ID"])->get()->toArray();
+        if(count($res) >= 4) {
+            return "Only aloud to upload 4 pictures. Click <a href='/login'>here</a> to go back.";
+        } 
         
         //uploads here;
         if($_FILES['image']['error'] === UPLOAD_ERR_OK){
@@ -203,7 +202,7 @@ class MainController extends \BaseController {
             }
         }
         
-        return View::make('home');
+        return Redirect::to('home');
 	}
 
 

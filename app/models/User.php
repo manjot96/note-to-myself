@@ -6,9 +6,11 @@ use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface {
-    public $timestamps = false;
-    protected $fillable = ['emailaddress', 'password', 'password_confirmation'];
+    
     use UserTrait, RemindableTrait;
+    
+    public $timestamps = false;
+    protected $fillable = ['emailaddress', 'password', 'password_confirmation', 'verification', 'active'];
     
     public $messages;
     /*
@@ -16,7 +18,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 *
 	 * @var string
 	 */
-	protected $table = 'users';
+	protected $table = 'Users';
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -31,8 +33,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
                           ];
     
     public function isValid() {
-		//create our validator;pass it the data and the data's rules
-		//$v = Validator::make(Input::all(), Student::$rules);
 		$v = Validator::make($this->attributes, static::$rules);
 
 		if($v->passes())

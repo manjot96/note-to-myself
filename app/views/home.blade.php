@@ -1,11 +1,10 @@
 <?php
-//session_start();
-//TODO: update database, make notes and 'tbh' _id unique; Figure out how we will be updating the websites; maybe for loop? use i as index?idk kevin got this
-//add $hell into the sessions when user is logged in;
 if(!isset($_SESSION["email"]))
-    return View::make('login');
-foreach($_SESSION["images"] as $img)
-    $image = $img;
+    return "Are you lost? Click <a href='/home'>here</a> to login.";
+if(isset($_SESSION['time']) && (time() - $_SESSION['time']) > 1200) {
+    return Redirect::to('/logout');
+}
+$_SESSION['time'] = time();
 ?>
 
 <!doctype html>
@@ -14,6 +13,12 @@ foreach($_SESSION["images"] as $img)
     <meta charset="UTF-8">
     <title>Your Notes!</title>
     {{HTML::style('css/home.css')}}
+    <script>    
+        function openInNew(textbox){
+            window.open(textbox.value);
+            this.blur();
+        }
+    </script>
 </head>
 <body>
     <div id="wrapper">
@@ -23,18 +28,16 @@ foreach($_SESSION["images"] as $img)
 
             <div id="column1">
                 <h2>Notes</h2>
-                <textarea cols="16" rows="40" id="notes" name="notes">{{$_SESSION["notes"]}}</textarea>
+                 {{ Form::textarea('notes', $_SESSION['notes'], ['id'=>'notes', 'cols'=>'16', 'rows'=>'40']) }}
             </div>
             <div id="column2">
                 <h2>websites</h2>
-                <?php
-                foreach($_SESSION["urls"] as $url)
-                     echo "<input type=\"text\" name=\"websites[]\" value=".$url." /><br >"
-                ?>
-                <input type="text" name="websites[]" /><br >
-                <input type="text" name="websites[]" /><br >
-                <input type="text" name="websites[]" /><br >
-                <input type="text" name="websites[]" /><br >
+                @foreach ($_SESSION["urls"] as $url)
+                    <input type="text" name="websites[]" value={{$url}} onclick="openInNew(this)" /><br >
+                @endforeach
+                @for ($i = 0; $i < 4; $i++)
+                    <input type="text" name="websites[]" /><br >
+                @endfor
             </div>
         </div> <!-- End of section1 -->
         <div id="section2">
@@ -44,12 +47,21 @@ foreach($_SESSION["images"] as $img)
                 <br>
                 <br>
                 <div>
+                    
                     <?php 
                     $i = 0;
                     foreach($_SESSION["images"] as $img) {
+                        $image = 'data:image/jpeg;base64,'.base64_encode($img);
+                        $width = $height = $size = 125;
+                        $a = getimagesize($image);
+                        if($a[0] > $a[1]) {
+                            $height = round($size * $a[1] / $a[0]);
+                        } else {
+                            $width = round($size * $a[0]/$a[1]);
+                        }
                         echo '<div>
-                        <a href="data:image/jpeg;base64,'.base64_encode($img).'">
-                        <img src="data:image/jpeg;base64,'.base64_encode($img).'"/>
+                        <a href="'.$image.'">
+                        <img src="'.$image.'" style="width:'.$width.'px;height:'.$height.'px;" />
                         </a>
                         <input type=\'checkbox\' name="'.$i.'" value=\'165\' /> 
                         <label for="'.$i.'">delete</label><br /><br />
