@@ -68,9 +68,6 @@ class UsersController extends \BaseController
     //handles forgot password
     public function send() {
         
-        if(!isset($_SESSION["email"])) {
-            return "Are you lost? Click <a href='/home'>here</a> to login.";
-        }
         
         $email = Input::get('email');;
         //if the user didn't enter an emil

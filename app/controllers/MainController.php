@@ -1,7 +1,12 @@
 <?php
 session_start();
+$old_sessionid = session_id();
+
+session_regenerate_id();
+
+$new_sessionid = session_id();
 class MainController extends \BaseController {
-    
+	
     public function index() {
         if (isset($_SESSION["email"])) {
             return View::make('home');
