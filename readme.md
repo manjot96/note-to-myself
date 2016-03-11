@@ -1,3 +1,6 @@
+This was an assignment to clone a website that stores notes/images for COMP3900.
+It is now up on a live server http://notes.cu.ma!
+
 ## Laravel PHP Framework
 
 [![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
