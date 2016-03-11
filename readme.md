@@ -1,4 +1,4 @@
-This was an assignment to clone a website that stores notes/images for COMP3900.
+This was an assignment to clone a website that stores notes/images for COMP3900.\n
 It is now up on a live server http://notes.cu.ma!
 
 ## Laravel PHP Framework
